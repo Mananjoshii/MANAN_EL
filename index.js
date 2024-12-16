@@ -74,13 +74,10 @@ app.post(
 );
 
 app.post("/register", async (req, res) => {
-    const email = req.body.username;
-    const password = req.body.password;
+    const { username: email, password, name, role, description } = req.body;
 
     try {
-        const checkResult = await db.query("SELECT * FROM users WHERE email = $1", [
-            email,
-        ]);
+        const checkResult = await db.query("SELECT * FROM users WHERE email = $1", [email]);
 
         if (checkResult.rows.length > 0) {
             res.redirect("/login");
@@ -90,13 +87,16 @@ app.post("/register", async (req, res) => {
                     console.error("Error hashing password:", err);
                 } else {
                     const result = await db.query(
-                        "INSERT INTO users (email, password) VALUES ($1, $2) RETURNING *",
-                        [email, hash]
+                        "INSERT INTO users (email, password, name, role, description) VALUES ($1, $2, $3, $4, $5) RETURNING *",
+                        [email, hash, name, role, description]
                     );
                     const user = result.rows[0];
                     req.login(user, (err) => {
-                        console.log("success");
-                        res.redirect("/profile");
+                        if (err) {
+                            console.error("Error logging in user:", err);
+                        } else {
+                            res.redirect("/profile");
+                        }
                     });
                 }
             });
@@ -105,6 +105,7 @@ app.post("/register", async (req, res) => {
         console.log(err);
     }
 });
+
 
 // Passport Configuration
 passport.use(

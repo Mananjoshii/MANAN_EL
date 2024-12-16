@@ -1,0 +1,133 @@
+<%- include('partials/header') %>
+
+<body>
+  <!-- Header -->
+  <header class="p-3">
+    <div class="container">
+      <div class="d-flex flex-wrap align-items-center justify-content-between">
+        <a href="/" class="navbar-brand">
+          <img src="SEMITONE_LOGO.gif" alt="MusicHub Logo" width="200px">
+        </a>
+        <ul class="nav me-auto mb-2 justify-content-start">
+          <li><a href="#" class="nav-link px-2 text-secondary">Home</a></li>
+          <li><a href="#" class="nav-link px-2 text-white">Features</a></li>
+          <li><a href="#" class="nav-link px-2 text-white">Discover</a></li>
+          <li><a href="#" class="nav-link px-2 text-white">About</a></li>
+        </ul>
+        <form class="col-auto me-3" role="search">
+          <input type="search" class="form-control text-bg-dark" placeholder="Search for artists, bands..."
+            aria-label="Search">
+        </form>
+        <div>
+          <a href="/register" role="button">
+            <button type="button" class="btn btn-primary">Sign Up for free</button>
+          </a>
+          <a href="/login" role="button">
+            <button type="button" class="btn btn-outline-light me-2">Login</button>
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero-section text-center">
+    <div class="container">
+      <h1 class="display-4 fw-bold">Welcome to SEMITONE!</h1>
+      <p class="lead">The ultimate platform for musicians, bands, and fans to connect, collaborate, and grow.</p>
+      <!-- <div>
+        <button class="btn btn-primary btn-lg me-2">Get Started</button>
+        <button class="btn btn-outline-light btn-lg">Learn More</button>
+      </div> -->
+    </div>
+  </section>
+
+  <!-- Custom Cards -->
+  <section class="custom-cards-section py-5 bg-light">
+    <div class="container">
+      <h2 class="text-center mb-5">Explore SemiTone</h2>
+      <div class="row row-cols-1 row-cols-md-3 g-4">
+        <!-- Card 1 -->
+        <div class="col">
+          <div class="card h-100 shadow-sm">
+            <img src="artist.jpeg" class="card-img-top" alt="Find Artists">
+            <div class="card-body">
+              <h5 class="card-title">Find Artists</h5>
+              <p class="card-text">Connect with talented musicians and discover collaborations that inspire you.</p>
+              <a href="#" class="btn btn-primary">Learn More</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2: Live Events -->
+        <div class="col">
+          <div class="card h-100 shadow-sm">
+            <img src="live2.jpeg" class="card-img-top" alt="Join Bands">
+            <div class="card-body">
+              <h5 class="card-title">Live Events</h5>
+              <p class="card-text">Stay updated on the latest concerts, gigs, and music festivals near you.</p>
+              <a href="#" class="btn btn-primary">Start Now</a>
+            </div>
+          </div>
+        </div>
+        <!-- Card 3 -->
+        <div class="col">
+          <div class="card h-100 shadow-sm">
+            <img src="band.jpeg" class="card-img-top" alt="Join Bands">
+            <div class="card-body">
+              <h5 class="card-title">Join Bands</h5>
+              <p class="card-text">Find the perfect bandmates and take your musical journey to the next level.</p>
+              <a href="#" class="btn btn-primary">Start Now</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Newsletter -->
+  <div class="container my-5 text-center">
+    <h2>Stay Tuned</h2>
+    <p>Get the latest updates on music trends, events, and new features.</p>
+    <form class="d-flex justify-content-center">
+      <input type="email" class="form-control me-2" placeholder="Enter your email" style="max-width: 300px;">
+      <button class="btn btn-primary" type="submit">Subscribe</button>
+    </form>
+  </div>
+
+  <!-- Footer -->
+  <footer class="py-4">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4">
+          <h5>About SEMITONE</h5>
+          <p>Your all-in-one platform for music collaboration, discovery, and community engagement.</p>
+        </div>
+        <div class="col-md-4">
+          <h5>Quick Links</h5>
+          <ul class="list-unstyled">
+            <li><a href="#" class="text-white">Home</a></li>
+            <li><a href="#" class="text-white">Discover</a></li>
+            <li><a href="#" class="text-white">Features</a></li>
+            <li><a href="#" class="text-white">Contact Us</a></li>
+          </ul>
+        </div>
+        <div class="col-md-4 text-center">
+          <h5>Follow Us</h5>
+          <a href="#" class="text-white me-2">Twitter</a>
+          <a href="#" class="text-white me-2">Instagram</a>
+          <a href="#" class="text-white">Facebook</a>
+        </div>
+      </div>
+      <div class="text-center mt-4">
+        <p>© 2024 SEMITONE, Inc. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-Mlwx8HG/nt0y5E+NXnyPu9XZ9goAaln2F/AXbMGP3SeIh4m2mkWepjIUVTJQmvzU"
+    crossorigin="anonymous"></script>
+</body>
+
+<%- include('partials/footer') %>

@@ -1,0 +1,38 @@
+
+body {
+  background: linear-gradient(135deg, #000000 0%, #5a5959 100%);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Arial', sans-serif;
+}
+.form-signin {
+  background: #000000;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(219, 7, 7, 0.2);
+}
+.form-signin img {
+  display: block;
+  margin: 0 auto 1rem;
+}
+.btn-primary {
+  background-color: #fc7b25;
+  border: none;
+}
+.btn-primary:hover {
+  background-color: #1a5bb8;
+}
+.btn-google {
+  background: #fff;
+  border: 1px solid #ccc;
+  color: #757575;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.btn-google i {
+  margin-right: 8px;
+  font-size: 1.2rem;
+}

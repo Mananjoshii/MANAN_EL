@@ -6,7 +6,6 @@ import passport from "passport";
 import { Strategy } from "passport-local";
 import session from "express-session";
 import env from "dotenv";
-import multer from "multer";
 
 const app = express();
 const port = 3000;
@@ -65,14 +64,6 @@ app.post(
     })
 );
 
-app.post(
-    "/login",
-    passport.authenticate("local", {
-        successRedirect: "/profile",
-        failureRedirect: "/login",
-    })
-);
-
 app.post("/register", async (req, res) => {
     const { username: email, password, name, role, description } = req.body;
 
@@ -106,6 +97,57 @@ app.post("/register", async (req, res) => {
     }
 });
 
+app.get("/profile", (req, res) => {
+    if (!req.isAuthenticated()) {
+        return res.redirect("/login");
+    }
+
+    const userId = req.user.id;
+
+    db.query("SELECT * FROM users WHERE id = $1", [userId], (err, result) => {
+        if (err) {
+            console.error("Error fetching user:", err);
+            res.status(500).send("Internal Server Error");
+        } else {
+            const user = result.rows[0];
+
+            if (user.role === "musician") {
+                res.render("profile_musician.ejs", { user });
+            } else if (user.role === "band_member") {
+                db.query(
+                    `SELECT b.name, b.description 
+                     FROM bands b 
+                     JOIN user_bands ub ON b.id = ub.band_id 
+                     WHERE ub.user_id = $1`,
+                    [userId],
+                    (err, bandsResult) => {
+                        if (err) {
+                            console.error("Error fetching bands:", err);
+                            res.status(500).send("Internal Server Error");
+                        } else {
+                            const bands = bandsResult.rows;
+                            res.render("profile_band.ejs", { user, bands });
+                        }
+                    }
+                );
+            } else if (user.role === "event_organizer") {
+                db.query(
+                    "SELECT * FROM events WHERE organizer_id = $1",
+                    [user.id],
+                    (err, eventsResult) => {
+                        if (err) {
+                            console.error("Error fetching events:", err);
+                            return res.status(500).send("Error fetching events");
+                        }
+                        res.render("profile_organizer.ejs", { user, events: eventsResult.rows });
+                    }
+                );
+            } else {
+                res.status(404).send("Profile not found");
+            }
+        }
+    });
+});
 
 // Passport Configuration
 passport.use(
@@ -153,19 +195,6 @@ passport.deserializeUser((id, cb) => {
     });
 });
 
-
-
-
-
-
-
-
-
-
-
-
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });
-
-

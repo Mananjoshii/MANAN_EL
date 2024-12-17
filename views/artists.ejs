@@ -1,0 +1,10 @@
+<%- include('partials/header') %>
+<div class="container my-5">
+  <h2>Artists</h2>
+  <ul class="list-group">
+    <% artists.forEach(artist => { %>
+      <li class="list-group-item"><%= artist.name %></li>
+    <% }); %>
+  </ul>
+</div>
+<%- include('partials/footer') %>

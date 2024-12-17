@@ -32,4 +32,30 @@ CREATE TABLE user_bands (
 );
 
 
+-- Artists Table
+CREATE TABLE artists (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  genre VARCHAR(50),
+  bio TEXT
+);
+
+-- Events Table
+CREATE TABLE events (
+  id SERIAL PRIMARY KEY,
+  title VARCHAR(100) NOT NULL,
+  date DATE NOT NULL,
+  location VARCHAR(100),
+  description TEXT
+);
+
+-- Bands Table
+CREATE TABLE bands (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  genre VARCHAR(50),
+  members INT
+);
+
+
  this is code for home page. give code so that user can search for a gig or band or artist from database..

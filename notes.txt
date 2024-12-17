@@ -30,3 +30,6 @@ CREATE TABLE user_bands (
     band_id INT REFERENCES bands(id) ON DELETE CASCADE,
     PRIMARY KEY (user_id, band_id)
 );
+
+
+ this is code for home page. give code so that user can search for a gig or band or artist from database..

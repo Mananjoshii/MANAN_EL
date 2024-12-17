@@ -6,11 +6,22 @@ import passport from "passport";
 import { Strategy } from "passport-local";
 import session from "express-session";
 import env from "dotenv";
+import searchRoutes from './routes/search.js';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
 
 const app = express();
 const port = 3000;
 const saltRounds = 10;
 env.config();
+
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+
 
 app.use(
     session({
@@ -21,7 +32,11 @@ app.use(
 );
 
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
 app.use(express.static("public"));
+
+app.use(searchRoutes);
+
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -148,6 +163,7 @@ app.get("/profile", (req, res) => {
         }
     });
 });
+
 
 // Passport Configuration
 passport.use(

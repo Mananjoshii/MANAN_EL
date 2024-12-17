@@ -1,0 +1,30 @@
+<%- include('partials/header') %>
+
+<body>
+  <div class="container my-5">
+    <h2 class="mb-4">Search Results for "<%= query %>"</h2>
+
+    <% if (results.length === 0) { %>
+      <p>No results found for "<%= query %>". Try a different search term.</p>
+    <% } else { %>
+      <div class="row row-cols-1 row-cols-md-3 g-4">
+        <% results.forEach(result => { %>
+          <div class="col">
+            <div class="card h-100 shadow-sm">
+              <div class="card-body">
+                <h5 class="card-title"><%= result.name %></h5>
+                <% if (result.description) { %>
+                  <p class="card-text"><%= result.description %></p>
+                <% } %>
+                <% if (result.date) { %>
+                  <p class="card-text"><small class="text-muted">Event Date: <%= result.date %></small></p>
+                <% } %>
+              </div>
+            </div>
+          </div>
+        <% }); %>
+      </div>
+    <% } %>
+  </div>
+<%- include('partials/footer') %>
+</body>

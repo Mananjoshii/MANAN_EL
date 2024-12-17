@@ -85,6 +85,17 @@
     </div>
   </section>
 
+  <form action="/search" method="GET" class="d-flex">
+    <input type="text" name="query" class="form-control me-2 text-bg-dark" placeholder="Search for artists, bands, events..." required>
+    <select name="type" class="form-select me-2 text-bg-dark">
+      <option value="artist">Artists</option>
+      <option value="band">Bands</option>
+      <option value="event">Events</option>
+    </select>
+    <button type="submit" class="btn btn-primary">Search</button>
+  </form>
+  
+
   <!-- Newsletter -->
   <div class="container my-5 text-center">
     <h2>Stay Tuned</h2>

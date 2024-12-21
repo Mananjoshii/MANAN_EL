@@ -1,20 +1,53 @@
-<%- include('partials/header') %>
-
-<div class="container my-5">
-  <h1 class="text-center"><%= title %></h1>
-  <div class="row row-cols-1 row-cols-md-3 g-4">
-    <% bands.forEach(band => { %>
-      <div class="col">
-        <div class="card h-100 shadow-sm">
-          <img src="<%= band.image_url %>" class="card-img-top" alt="<%= band.name %>">
-          <div class="card-body">
-            <h5 class="card-title"><%= band.name %></h5>
-            <p class="card-text"><%= band.description %></p>
-          </div>
-        </div>
-      </div>
-    <% }); %>
-  </div>
-</div>
-
-<%- include('partials/footer') %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bands</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      padding: 0;
+    }
+    h1 {
+      color: #333;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    table, th, td {
+      border: 1px solid #ddd;
+    }
+    th, td {
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #f4f4f4;
+    }
+  </style>
+</head>
+<body>
+  <h1>Bands</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Genre</th>
+        <th>Members</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% bands.forEach(band => { %>
+        <tr>
+          <td><%= band.name %></td>
+          <td><%= band.genre %></td>
+          <td><%= band.members %></td>
+        </tr>
+      <% }); %>
+    </tbody>
+  </table>
+</body>
+</html>

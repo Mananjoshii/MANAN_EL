@@ -18,7 +18,7 @@ router.get('/artists', async (req, res) => {
 router.get('/events', async (req, res) => {
   try {
     const result = await db.query('SELECT * FROM events');
-    res.render('/events.ejs', { title: 'Live Events', events: result.rows });
+    res.render('events');
   } catch (err) {
     console.error('Error fetching events:', err);
     res.status(500).send('Error fetching events');

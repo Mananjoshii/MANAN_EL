@@ -1,0 +1,112 @@
+img-thumbnail {
+    border-radius: 50px;
+
+}
+.dashboard-container {
+    padding: 20px;
+  }
+  .profile-section img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 15px;
+  }
+  .btn-connect {
+    margin-top: 5px;
+    font-size: 0.9rem;
+  }
+  .card {
+    margin-bottom: 20px;
+    border-radius: 20px;
+  }
+ 
+.professional.details {
+    list-style-type: none; 
+    padding: 0;
+    margin: 20px 0;
+    
+    border: 1px solid #ddd; /* Subtle border */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Light shadow */
+    overflow: hidden; 
+  }
+  
+  /* Styling each list item */
+  .professional.details li {
+    padding: 15px;
+    border-bottom: 1px solid #ddd; /* Divider between items */
+    font-family: Arial, sans-serif; /* Clean font */
+    font-size: 16px;
+    color: #333; /* Dark text color */
+  }
+  
+  /* Remove border for the last list item */
+  .professional.details li:last-child {
+    border-bottom: none;
+  }
+  
+  /* Highlight the title (e.g., Experience, Current Band) */
+  .professional.details li strong {
+    color: #0077cc; 
+    font-weight: bold;
+  }
+  
+  /* Add hover effect */
+  .professional.details li:hover {
+    background-color: #eef6ff; /* Slight blue highlight */
+    cursor: pointer; /* Show pointer for interactivity */
+  }
+  /* Styling the unordered list container */
+.list-group {
+    list-style-type: none; /* Remove default list bullets */
+    padding: 0;
+    margin: 20px 0;
+    background-color: #f9f9f9; /* Light background */
+    border: 1px solid #ddd; /* Subtle border */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Light shadow */
+    overflow: hidden; /* Ensure content fits inside rounded edges */
+  }
+  
+  /* Styling each list item */
+  .list-group-item {
+    padding: 15px;
+    border-bottom: 1px solid #ddd; /* Divider between items */
+    font-family: Arial, sans-serif; /* Clean font */
+    font-size: 16px;
+    color: #333; /* Dark text color */
+  }
+  
+  /* Remove border for the last list item */
+  .list-group-item:last-child {
+    border-bottom: none;
+  }
+  
+  /* Highlight the title (e.g., Contact, Social Media Links) */
+  .list-group-item strong {
+    color: #0077cc; /* Blue for emphasis */
+    font-weight: bold;
+  }
+  
+  /* Style for links */
+  .list-group-item a {
+    text-decoration: none; /* Remove underline */
+    margin-right: 10px; /* Spacing between links */
+  }
+  
+  .list-group-item:hover {
+    background-color: #eef6ff; 
+    cursor: pointer;
+  }
+* {
+    text-decoration: none;
+  }
+a {
+    text-decoration: none;
+  }
+  
+  a:hover {
+    text-decoration: none; /* Ensure underline does not appear on hover */
+  }
+    

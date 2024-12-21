@@ -5,27 +5,44 @@ import bcrypt from "bcrypt";
 import passport from "passport";
 import { Strategy } from "passport-local";
 import session from "express-session";
-import env from "dotenv";
-import searchRoutes from './routes/search.js';
-import path from 'path';
-import { fileURLToPath } from 'url';
-import routes from './routes.js';
-
+import dotenv from "dotenv";
+import multer from "multer";
+import path from "path";
+import { fileURLToPath } from "url";
 
 const app = express();
 const port = 3000;
 const saltRounds = 10;
-env.config();
+dotenv.config();
 
+// Multer Storage Configuration
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        const destinationPath = file.fieldname === "video" ? "uploads/videos/"
+            : file.fieldname === "audio" ? "uploads/audio/"
+                : "uploads/images/";
+        cb(null, destinationPath); // Set folder based on field name
+    },
+    filename: (req, file, cb) => {
+        const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+        cb(null, file.fieldname + "-" + uniqueSuffix + "-" + file.originalname);
+    },
+});
+const upload = multer({ storage });
 
+// File path helpers
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+// App configuration
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use(express.static("public"));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
 
-app.use('/', routes);
-
-
+// Express Session
 app.use(
     session({
         secret: process.env.SECRET,
@@ -34,16 +51,11 @@ app.use(
     })
 );
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.json());
-app.use(express.static("public"));
-
-app.use(searchRoutes);
-
-
+// Passport Initialization
 app.use(passport.initialize());
 app.use(passport.session());
 
+// Database Connection
 const db = new pg.Client({
     user: process.env.PG_USER,
     host: process.env.PG_HOST,
@@ -53,27 +65,88 @@ const db = new pg.Client({
 });
 db.connect();
 
+// Home Route
 app.get("/", (req, res) => {
     res.render("home.ejs");
 });
 
+// About Route
+app.get("/about", (req, res) => {
+    res.render("about.ejs");
+});
+
+// Login Route
 app.get("/login", (req, res) => {
     res.render("login.ejs");
 });
 
+// Register Route
 app.get("/register", (req, res) => {
     res.render("register.ejs");
 });
+app.get('/artists', async (req, res) => {
+    try {
+      const result = await db.query('SELECT * FROM artists');
+      const artists = result.rows; // Array of artists from the database
+      res.render('artists', { artists });
+    } catch (error) {
+      console.error('Error fetching artists:', error);
+      res.status(500).send('Internal Server Error');
+    }
+  });
 
+  app.get('/bands', async (req, res) => {
+    try {
+      const result = await db.query('SELECT * FROM bands');
+      const bands = result.rows; // Array of bands from the database
+      res.render('bands', { bands });
+    } catch (error) {
+      console.error('Error fetching bands:', error);
+      res.status(500).send('Internal Server Error');
+    }
+  });
+  
+
+
+
+// Events Route
+app.get("/events", async (req, res) => {
+    try {
+        const result = await db.query("SELECT * FROM events ORDER BY id DESC");
+        res.render("events.ejs", { events: result.rows });
+    } catch (err) {
+        console.error("Error fetching events:", err);
+        res.status(500).send("Internal Server Error");
+    }
+});
+
+// Add Event Route
+app.post("/add-event", upload.single("image"), async (req, res) => {
+    const { title, description } = req.body;
+    const imageUrl = `/uploads/images/${req.file.filename}`;
+
+    try {
+        await db.query(
+            "INSERT INTO events (title, description, image_url) VALUES ($1, $2, $3)",
+            [title, description, imageUrl]
+        );
+        res.redirect("/events");
+    } catch (err) {
+        console.error("Error adding event:", err);
+        res.status(500).send("Internal Server Error");
+    }
+});
+
+// Logout Route
 app.get("/logout", (req, res) => {
     req.logout(function (err) {
         if (err) {
-            return next(err);
+            console.error("Error logging out:", err);
+            return res.status(500).send("Internal Server Error");
         }
         res.redirect("/");
     });
 });
-
 app.post(
     "/login",
     passport.authenticate("local", {
@@ -82,8 +155,23 @@ app.post(
     })
 );
 
-app.post("/register", async (req, res) => {
-    const { username: email, password, name, role, description } = req.body;
+// Register New User
+app.post("/register", upload.fields([
+    { name: "profile_picture", maxCount: 1 },
+    { name: "video", maxCount: 1 },
+    { name: "audio", maxCount: 1 },
+]), async (req, res) => {
+    const {
+        username: email,
+        password,
+        name,
+        role,
+        description,
+        instrument,
+    } = req.body;
+    const profile_picture = req.files?.profile_picture?.[0]?.filename || null;
+    const video = req.files?.video?.[0]?.filename || null;
+    const audio = req.files?.audio?.[0]?.filename || null;
 
     try {
         const checkResult = await db.query("SELECT * FROM users WHERE email = $1", [email]);
@@ -94,15 +182,31 @@ app.post("/register", async (req, res) => {
             bcrypt.hash(password, saltRounds, async (err, hash) => {
                 if (err) {
                     console.error("Error hashing password:", err);
+                    res.status(500).send("Internal Server Error");
                 } else {
                     const result = await db.query(
-                        "INSERT INTO users (email, password, name, role, description) VALUES ($1, $2, $3, $4, $5) RETURNING *",
-                        [email, hash, name, role, description]
+                        `INSERT INTO users 
+                        (email, password, name, role, description, profile_picture, video, audio, instrument) 
+                        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) 
+                        RETURNING *`,
+                        [
+                            email,
+                            hash,
+                            name,
+                            role,
+                            description,
+                            profile_picture,
+                            video,
+                            audio,
+                            instrument,
+                        ]
                     );
+
                     const user = result.rows[0];
                     req.login(user, (err) => {
                         if (err) {
                             console.error("Error logging in user:", err);
+                            res.status(500).send("Internal Server Error");
                         } else {
                             res.redirect("/profile");
                         }
@@ -111,10 +215,12 @@ app.post("/register", async (req, res) => {
             });
         }
     } catch (err) {
-        console.log(err);
+        console.error("Error registering user:", err);
+        res.status(500).send("Internal Server Error");
     }
 });
 
+// Profile Route
 app.get("/profile", (req, res) => {
     if (!req.isAuthenticated()) {
         return res.redirect("/login");
@@ -167,15 +273,12 @@ app.get("/profile", (req, res) => {
     });
 });
 
-
 // Passport Configuration
 passport.use(
     "local",
     new Strategy(async function verify(username, password, cb) {
         try {
-            const result = await db.query("SELECT * FROM users WHERE email = $1 ", [
-                username,
-            ]);
+            const result = await db.query("SELECT * FROM users WHERE email = $1 ", [username]);
             if (result.rows.length > 0) {
                 const user = result.rows[0];
                 const storedHashedPassword = user.password;
@@ -192,10 +295,11 @@ passport.use(
                     }
                 });
             } else {
-                return cb("User not found");
+                return cb(null, false);
             }
         } catch (err) {
-            console.log(err);
+            console.error("Error during login verification:", err);
+            return cb(err);
         }
     })
 );
@@ -214,6 +318,7 @@ passport.deserializeUser((id, cb) => {
     });
 });
 
+// Start the Server
 app.listen(port, () => {
-    console.log(`Server running on port ${port}`);
+    console.log(`Server running on http://localhost:${port}`);
 });

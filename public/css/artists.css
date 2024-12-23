@@ -1,0 +1,76 @@
+.list-group-item {
+    margin-bottom: 20px;  
+    padding: 20px;  
+    border-radius: 15px;  
+    display: flex;
+    align-items: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.list-group-item img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    margin-right: 20px;
+    border-radius: 50%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+}
+
+.btn {
+    margin-top: 10px;
+}
+
+footer {
+    background-color: black;
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+    box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1); 
+    border-top: 2px solid white; 
+}
+
+footer .nav {
+    justify-content: center;
+}
+
+footer .nav-link {
+    color: white;
+    padding: 0 10px;
+}
+
+footer .nav-link:hover {
+    color: #ddd;
+}
+
+  .list-group-item {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 15px;
+    border: none;
+    margin-bottom: 20px;
+    background: rgba(255, 255, 255, 0.1); 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  }
+
+  .list-group-item:hover {
+    transform: scale(1.03);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+  }
+
+  .list-group-item img {
+    transition: transform 0.3s ease;
+    border-radius: 10px;
+  }
+
+  .list-group-item:hover img {
+    transform: scale(1.05);
+  }
+
+  .btn {
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+
+  .btn:hover {
+    background-color: #ffc107;
+    transform: scale(1.1);
+  }
+

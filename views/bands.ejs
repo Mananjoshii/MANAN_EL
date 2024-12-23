@@ -3,51 +3,77 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bands</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 20px;
-      padding: 0;
-    }
-    h1 {
-      color: #333;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-    table, th, td {
-      border: 1px solid #ddd;
-    }
-    th, td {
-      padding: 8px;
-      text-align: left;
-    }
-    th {
-      background-color: #f4f4f4;
-    }
-  </style>
+  <title>Band Profiles</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  
+  <link rel="stylesheet" href="/css/bandprofiles.css">
 </head>
 <body>
-  <h1>Bands</h1>
-  <table>
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Genre</th>
-        <th>Members</th>
-      </tr>
-    </thead>
-    <tbody>
+  <!-- Header Section -->
+  <header class="p-3 mb-3 border-bottom" style="background-color: black; color: white;">
+    <div class="container">
+      <div class="d-flex flex-wrap align-items-center justify-content-between">
+        <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+          <img src="/SEMITONE_LOGO.gif" alt="MusicHub Logo" width="120">
+        </a>
+        <!-- <ul class="nav">
+          <li><a href="#" class="nav-link px-2 text-white">Overview</a></li>
+          <li><a href="#" class="nav-link px-2 text-white">Bands</a></li>
+          <li><a href="#" class="nav-link px-2 text-white">Network</a></li>
+          <li><a href="#" class="nav-link px-2 text-white">Post</a></li>
+        </ul> -->
+        <form class="col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
+          <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
+        </form>
+        <!-- <div class="dropdown text-end">
+          <a href="#" class="d-block text-white text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="https://github.com/mdo.png" alt="User Profile" width="32" height="32" class="rounded-circle">
+          </a>
+          <ul class="dropdown-menu text-small">
+            <li><a class="dropdown-item" href="#">New project...</a></li>
+            <li><a class="dropdown-item" href="#">Settings</a></li>
+            <li><a class="dropdown-item" href="#">Profile</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">Sign out</a></li>
+          </ul>
+        </div> -->
+      </div>
+    </div>
+  </header>
+
+  <!-- Band Profiles Section -->
+  <div class="container">
+    <h2 class="text-center my-4">Band Profiles</h2>
+    <div class="row">
       <% bands.forEach(band => { %>
-        <tr>
-          <td><%= band.name %></td>
-          <td><%= band.genre %></td>
-          <td><%= band.members %></td>
-        </tr>
+        <div class="col-md-4">
+          <div class="card">
+            <img src="<%= band.image || 'default-band.jpg' %>" class="card-img-top" alt="<%= band.name %>">
+            <div class="card-body">
+              <h5 class="card-title"><%= band.name %></h5>
+              <p class="card-text"><strong>Genre:</strong> <%= band.genre %></p>
+              <p class="card-text"><strong>Members:</strong> <%= band.members %></p>
+              <p class="card-text"><%= band.description || 'No description available.' %></p>
+              <a href="<%= band.profileLink || '#' %>" class="btn btn-primary">View Profile</a>
+            </div>
+          </div>
+        </div>
       <% }); %>
-    </tbody>
-  </table>
+    </div>
+  </div>
+
+  <!-- Footer Section -->
+  <footer class="bg-dark text-white py-4 mt-5">
+    <div class="container text-center">
+      <p>&copy; 2024 Semitones. All rights reserved.</p>
+      <ul class="nav justify-content-center">
+        <li class="nav-item"><a href="#" class="nav-link text-white"><i class="fab fa-facebook"></i></a></li>
+        <li class="nav-item"><a href="#" class="nav-link text-white"><i class="fab fa-twitter"></i></a></li>
+        <li class="nav-item"><a href="#" class="nav-link text-white"><i class="fab fa-instagram"></i></a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76A2Fq5ROQ05NvGx6GmzQ10uDhtL0uVxCEN7aOg1Fu+aVb5HnQ1gHftJo2tFaFb" crossorigin="anonymous"></script>
 </body>
 </html>
